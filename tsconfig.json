@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "incremental": true,
+    "module": "esnext",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    // "jsx": "preserve",
+    "jsx": "preserve",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    //✅ BẮT BUỘC: trỏ về thư mục "src"
+    "baseUrl": ".",
+    // ✅ BẮT BUỘC: alias @ trỏ vào src/*
+    "paths": {
+      "@/*": ["./*"]               
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "frontend"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
