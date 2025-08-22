@@ -2,11 +2,16 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+type User = {
+  username: string;
+  role: string;
+};
+
 export default function Home() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState<string | null>(null);
 
   const login = async () => {
     try {
@@ -14,11 +19,17 @@ export default function Home() {
         username,
         password,
       });
-      setToken(res.data.access_token);
-      localStorage.setItem("token", res.data.access_token);
-      localStorage.setItem("role", res.data.role);
-      setUser({ username, role: res.data.role });
-    } catch {
+      const accessToken = res.data.access_token;
+      const role = res.data.role;
+
+      setToken(accessToken);
+      localStorage.setItem("token", accessToken);
+      localStorage.setItem("role", role);
+      localStorage.setItem("username", username); // Lưu cả username nếu muốn dùng sau
+
+      setUser({ username, role });
+    } catch (err) {
+      console.error(err);
       alert("Login failed");
     }
   };
@@ -32,9 +43,11 @@ export default function Home() {
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
     const savedRole = localStorage.getItem("role");
-    if (savedToken) {
+    const savedUsername = localStorage.getItem("username") || "User";
+
+    if (savedToken && savedRole) {
       setToken(savedToken);
-      setUser({ username: "saved", role: savedRole });
+      setUser({ username: savedUsername, role: savedRole });
     }
   }, []);
 
@@ -77,7 +90,7 @@ export default function Home() {
       </aside>
       <main className="flex-1 p-6">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl">Welcome, {user.role}</h1>
+          <h1 className="text-2xl">Welcome, {user.username} ({user.role})</h1>
           <button
             onClick={logout}
             className="bg-red-500 text-white px-4 py-2 rounded"
