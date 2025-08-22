@@ -15,10 +15,17 @@ export default function Home() {
 
   const login = async () => {
     try {
-      const res = await axios.post("http://127.0.0.1:8083/login", {
-        username,
-        password,
-      });
+      // const res = await axios.post("http://127.0.0.1:8083/login", {
+      //   username,
+      //   password,
+      // });
+
+      const res = {
+      data: {
+        access_token: "mocked_token_123",
+        role: "admin",
+      },
+    };
       const accessToken = res.data.access_token;
       const role = res.data.role;
 
